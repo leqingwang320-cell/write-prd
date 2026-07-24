@@ -13,7 +13,7 @@
 在 Codex 中使用 `skill-installer` 安装：
 
 ```
-安装 write-prd skill，仓库地址：https://github.com/YOUR_USER/write-prd
+安装 write-prd skill，仓库地址：https://github.com/leqingwang320-cell/write-prd
 ```
 
 或手动放入 `~/.codex/skills/write-prd/`。
