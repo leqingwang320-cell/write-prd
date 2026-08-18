@@ -1,0 +1,17 @@
+{
+  "name": "write-prd",
+  "version": "1.0.0",
+  "description": "将一句话需求或零散材料，整理成与信息成熟度匹配的产品需求文档（PRD）。信息不足时追问，方向确认后生成可评审、可研发交接的文档。",
+  "author": {
+    "name": "乐庆 王"
+  },
+  "homepage": "https://github.com/leqingwang320-cell/write-prd",
+  "repository": "https://github.com/leqingwang320-cell/write-prd",
+  "license": "MIT",
+  "keywords": [
+    "prd",
+    "product",
+    "requirements",
+    "product-management"
+  ]
+}

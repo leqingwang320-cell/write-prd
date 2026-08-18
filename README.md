@@ -1,4 +1,4 @@
-# Write PRD — Codex Skill
+# Write PRD — Cursor / Codex Skill
 
 将一句话需求或零散材料，整理成与信息成熟度匹配的产品需求文档（PRD）。
 
@@ -10,13 +10,43 @@
 
 ## 安装
 
+### Cursor
+
+从本仓库安装（推荐）：
+
+```bash
+git clone https://github.com/leqingwang320-cell/write-prd.git
+cd write-prd
+chmod +x install.sh
+./install.sh
+```
+
+如果你已经下载了 `write-prd.tar`：
+
+```bash
+chmod +x install.sh
+./install.sh /Users/didi/Downloads/write-prd.tar
+```
+
+或手动解压到 Cursor 用户技能目录：
+
+```bash
+mkdir -p ~/.cursor/skills
+tar -xf /Users/didi/Downloads/write-prd.tar -C ~/.cursor/skills
+# 确认结果是 ~/.cursor/skills/write-prd/SKILL.md
+```
+
+安装后执行 **Developer: Reload Window**。之后在 Agent 对话里输入 `/write-prd`，或直接说「写一份 PRD」。
+
+### Codex
+
 在 Codex 中使用 `skill-installer` 安装：
 
 ```
 安装 write-prd skill，仓库地址：https://github.com/leqingwang320-cell/write-prd
 ```
 
-或手动放入 `~/.codex/skills/write-prd/`。
+或手动放入 `~/.codex/skills/write-prd/`。`./install.sh` 也会同时写入该目录。
 
 ## 工作流程
 
@@ -46,6 +76,8 @@
 ```
 write-prd/
 ├── SKILL.md                         ← 工作流 + 路由指引（主文件）
+├── install.sh                       ← Cursor / Codex / Claude 一键安装
+├── .cursor-plugin/plugin.json       ← Cursor 本地插件清单
 ├── agents/openai.yaml               ← Codex 界面配置
 ├── evals/
 │   └── PRD-SKILL-CASES.md          ← 18 条回归测试用例
