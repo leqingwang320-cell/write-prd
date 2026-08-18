@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
 # Install write-prd as a Cursor / Codex / Claude / Agents skill.
 #
-# Usage:
-#   ./install.sh
-#   ./install.sh /Users/didi/Downloads/write-prd.tar
-#   ./install.sh /path/to/write-prd
+# Usage (can be run from any directory, including ~):
+#   bash install.sh
+#   bash install.sh "$HOME/Downloads/write-prd.tar"
+#   bash install.sh /path/to/write-prd
 set -euo pipefail
 
 SKILL_NAME="write-prd"
 DEFAULT_TAR="${HOME}/Downloads/write-prd.tar"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+MAC_TAR="/Users/didi/Downloads/write-prd.tar"
+SCRIPT_DIR=""
+if [[ -n "${BASH_SOURCE[0]:-}" && -f "${BASH_SOURCE[0]}" ]]; then
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+fi
 
 die() {
   echo "error: $*" >&2
@@ -98,12 +102,16 @@ SOURCE_ROOT=""
 if [[ -z "${SOURCE_ARG}" ]]; then
   if [[ -f "${DEFAULT_TAR}" ]]; then
     SOURCE_ARG="${DEFAULT_TAR}"
-  elif [[ -f "/Users/didi/Downloads/write-prd.tar" ]]; then
-    SOURCE_ARG="/Users/didi/Downloads/write-prd.tar"
-  elif is_skill_root "${SCRIPT_DIR}"; then
+  elif [[ -f "${MAC_TAR}" ]]; then
+    SOURCE_ARG="${MAC_TAR}"
+  elif [[ -n "${SCRIPT_DIR}" ]] && is_skill_root "${SCRIPT_DIR}"; then
     SOURCE_ARG="${SCRIPT_DIR}"
   else
-    die "未找到技能包。请传入 tar 路径，或在 write-prd 仓库根目录运行 ./install.sh"
+    die "当前目录 $(pwd) 里没有技能包。请执行：
+  bash install.sh \"\$HOME/Downloads/write-prd.tar\"
+或先下载脚本：
+  curl -fsSL https://raw.githubusercontent.com/leqingwang320-cell/write-prd/cursor/install-write-prd-skill-5d27/install.sh -o /tmp/install-write-prd.sh
+  bash /tmp/install-write-prd.sh \"\$HOME/Downloads/write-prd.tar\""
   fi
 fi
 

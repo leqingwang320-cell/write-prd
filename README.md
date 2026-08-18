@@ -12,31 +12,38 @@
 
 ### Cursor
 
-从本仓库安装（推荐）：
+`install.sh` 在 GitHub 仓库里，不在家目录 `~`。下面两条都可以在任意目录执行，包括 `~`。
+
+**已有 tar 包（推荐，可直接在家目录粘贴）：**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/leqingwang320-cell/write-prd/cursor/install-write-prd-skill-5d27/install.sh -o /tmp/install-write-prd.sh
+bash /tmp/install-write-prd.sh "$HOME/Downloads/write-prd.tar"
+```
+
+不联网、只解压 tar 也可以：
+
+```bash
+TAR="$HOME/Downloads/write-prd.tar"
+TMP="$(mktemp -d)"
+tar -xf "$TAR" -C "$TMP"
+ROOT="$(dirname "$(find "$TMP" -name SKILL.md | head -n 1)")"
+mkdir -p "$HOME/.cursor/skills"
+rm -rf "$HOME/.cursor/skills/write-prd"
+cp -R "$ROOT" "$HOME/.cursor/skills/write-prd"
+rm -rf "$TMP"
+ls "$HOME/.cursor/skills/write-prd/SKILL.md"
+```
+
+**从仓库安装：**
 
 ```bash
 git clone https://github.com/leqingwang320-cell/write-prd.git
 cd write-prd
-chmod +x install.sh
-./install.sh
+bash install.sh
 ```
 
-如果你已经下载了 `write-prd.tar`：
-
-```bash
-chmod +x install.sh
-./install.sh /Users/didi/Downloads/write-prd.tar
-```
-
-或手动解压到 Cursor 用户技能目录：
-
-```bash
-mkdir -p ~/.cursor/skills
-tar -xf /Users/didi/Downloads/write-prd.tar -C ~/.cursor/skills
-# 确认结果是 ~/.cursor/skills/write-prd/SKILL.md
-```
-
-安装后执行 **Developer: Reload Window**。之后在 Agent 对话里输入 `/write-prd`，或直接说「写一份 PRD」。
+安装后执行 **Developer: Reload Window**。之后在 Agent 对话里输入 `/write-prd`，或直接说「写一份 PRD」。确认 `~/.cursor/skills/write-prd/SKILL.md` 存在即表示安装成功。
 
 ### Codex
 
