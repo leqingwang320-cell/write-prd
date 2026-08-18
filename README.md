@@ -12,30 +12,33 @@
 
 ### Cursor
 
-`install.sh` 在 GitHub 仓库里，不在家目录 `~`。下面两条都可以在任意目录执行，包括 `~`。
-
-**已有 tar 包（推荐，可直接在家目录粘贴）：**
+`install.sh` 在 GitHub 仓库里，不在家目录 `~`。已经有 `~/Downloads/write-prd.tar` 时，**不要 curl GitHub**（`raw.githubusercontent.com` 在部分网络会一直卡住、没有任何输出）。先按 `Ctrl+C` 停掉卡住的命令，再粘贴下面这一段：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/leqingwang320-cell/write-prd/cursor/install-write-prd-skill-5d27/install.sh -o /tmp/install-write-prd.sh
-bash /tmp/install-write-prd.sh "$HOME/Downloads/write-prd.tar"
-```
-
-不联网、只解压 tar 也可以：
-
-```bash
+set -e
+echo "1. checking tar"
 TAR="$HOME/Downloads/write-prd.tar"
-TMP="$(mktemp -d)"
+ls -lh "$TAR"
+echo "2. extracting"
+TMP="$(mktemp -d /tmp/write-prd.XXXXXX)"
 tar -xf "$TAR" -C "$TMP"
-ROOT="$(dirname "$(find "$TMP" -name SKILL.md | head -n 1)")"
+echo "3. finding SKILL.md"
+SKILL="$(find "$TMP" -name SKILL.md -print | head -n 1)"
+echo "found: $SKILL"
+test -n "$SKILL"
+echo "4. installing to ~/.cursor/skills/write-prd"
+ROOT="$(dirname "$SKILL")"
 mkdir -p "$HOME/.cursor/skills"
 rm -rf "$HOME/.cursor/skills/write-prd"
 cp -R "$ROOT" "$HOME/.cursor/skills/write-prd"
 rm -rf "$TMP"
-ls "$HOME/.cursor/skills/write-prd/SKILL.md"
+echo "5. done"
+ls -l "$HOME/.cursor/skills/write-prd/SKILL.md"
 ```
 
-**从仓库安装：**
+每一步都会打印数字。如果停在 `2. extracting` 超过几秒，说明 tar 可能损坏；其它步骤通常立刻完成。
+
+**从仓库安装（需要 GitHub 可访问）：**
 
 ```bash
 git clone https://github.com/leqingwang320-cell/write-prd.git
