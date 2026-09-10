@@ -1,4 +1,4 @@
 interface:
-  display_name: "Write PRD"
+  display_name: "PRD 需求助手"
   short_description: "把模糊需求整理成可评审、可执行、可验收的高质量产品需求文档"
   default_prompt: "使用 $write-prd 将我的产品想法或现有材料整理成一份与当前信息成熟度匹配的 PRD。"
