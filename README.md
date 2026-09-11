@@ -1,4 +1,4 @@
-# Write PRD — Codex Skill
+# Write PRD — Cursor / Codex Skill
 
 将一句话需求或零散材料，整理成与信息成熟度匹配的产品需求文档（PRD）。
 
@@ -10,13 +10,53 @@
 
 ## 安装
 
+### Cursor
+
+`install.sh` 在 GitHub 仓库里，不在家目录 `~`。已经有 `~/Downloads/write-prd.tar` 时，**不要 curl GitHub**（`raw.githubusercontent.com` 在部分网络会一直卡住、没有任何输出）。先按 `Ctrl+C` 停掉卡住的命令，再粘贴下面这一段：
+
+```bash
+set -e
+echo "1. checking tar"
+TAR="$HOME/Downloads/write-prd.tar"
+ls -lh "$TAR"
+echo "2. extracting"
+TMP="$(mktemp -d /tmp/write-prd.XXXXXX)"
+tar -xf "$TAR" -C "$TMP"
+echo "3. finding SKILL.md"
+SKILL="$(find "$TMP" -name SKILL.md -print | head -n 1)"
+echo "found: $SKILL"
+test -n "$SKILL"
+echo "4. installing to ~/.cursor/skills/write-prd"
+ROOT="$(dirname "$SKILL")"
+mkdir -p "$HOME/.cursor/skills"
+rm -rf "$HOME/.cursor/skills/write-prd"
+cp -R "$ROOT" "$HOME/.cursor/skills/write-prd"
+rm -rf "$TMP"
+echo "5. done"
+ls -l "$HOME/.cursor/skills/write-prd/SKILL.md"
+```
+
+每一步都会打印数字。如果停在 `2. extracting` 超过几秒，说明 tar 可能损坏；其它步骤通常立刻完成。
+
+**从仓库安装（需要 GitHub 可访问）：**
+
+```bash
+git clone https://github.com/leqingwang320-cell/write-prd.git
+cd write-prd
+bash install.sh
+```
+
+安装后执行 **Developer: Reload Window**。之后在 Agent 对话里输入 `/write-prd`，或直接说「写一份 PRD」。确认 `~/.cursor/skills/write-prd/SKILL.md` 存在即表示安装成功。
+
+### Codex
+
 在 Codex 中使用 `skill-installer` 安装：
 
 ```
 安装 write-prd skill，仓库地址：https://github.com/leqingwang320-cell/write-prd
 ```
 
-或手动放入 `~/.codex/skills/write-prd/`。
+或手动放入 `~/.codex/skills/write-prd/`。`./install.sh` 也会同时写入该目录。
 
 ## 工作流程
 
@@ -46,6 +86,8 @@
 ```
 write-prd/
 ├── SKILL.md                         ← 工作流 + 路由指引（主文件）
+├── install.sh                       ← Cursor / Codex / Claude 一键安装
+├── .cursor-plugin/plugin.json       ← Cursor 本地插件清单
 ├── agents/openai.yaml               ← Codex 界面配置
 ├── evals/
 │   └── PRD-SKILL-CASES.md          ← 18 条回归测试用例
